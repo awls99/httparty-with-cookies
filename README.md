@@ -1,4 +1,5 @@
 httparty-with-cookies
 =====================
 
-This gem allows you to 
+WORK IN PROGRESS
+This gem allows you to user HTTParty with auto cookie management.
