@@ -19,16 +19,25 @@ end
 
 
 describe "HTTParty with cookies" do
-  it 'reads multiple set cookie headers and saves the cookies' do
-    get 'http://localhost:4567/set_cookies'
-    cookies['foo'].should eq('bar')
-    cookies['hello'].should eq('world')
+  [:get, :post, :delete, :put].each do | method_sym |
+    it "#{method_sym.to_s.capitalize}: reads multiple set cookie headers and saves the cookies" do
+                                       #content-length is for post/put/delete methods which expect it
+      self.send method_sym, 'http://localhost:4567/set_cookies', {:headers => {'Content-Length' => '0'}}
+      cookies['foo'].should eq('bar')
+      cookies['hello'].should eq('world')
+    end
+
+    it "#{method_sym.to_s.capitalize}: transmits multiple cookies" do
+                                         #content-length is for post/put/delete methods which expect it
+      self.send method_sym, 'http://localhost:4567/set_cookies', {:headers => {'Content-Length' => '0'}}
+      self.send method_sym, 'http://localhost:4567/get_cookies', {:headers => {'Content-Length' => '0'}}
+      @last_response.body.should eq('1')
+    end
+
+    it "#{method_sym.to_s.capitalize}: doesn't crash when no cookies are set" do
+      #content-length is for post/put/delete methods which expect it
+      self.send method_sym, 'http://localhost:4567/no_cookies', {:headers => {'Content-Length' => '0'}}
+      @last_response.body.should eq('1')
+    end
   end
-
-  it 'transmits multiple cookies' do
-    get 'http://localhost:4567/get_cookies'
-    @last_response.body.should eq('1')
-  end
-
-
 end

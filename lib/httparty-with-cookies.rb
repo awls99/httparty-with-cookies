@@ -14,13 +14,13 @@ module HTTPartyWithCookies
     method_sym = netclass.to_s.split('::').last.downcase.to_sym
     define_method method_sym do |uri, options={}, &block|
 
-      base_options = {:headers => {'Cookie' => request_cookies} }
-      if options
-        options = base_options.merge options
+      base_headers = {'Cookie' => request_cookies}
+      if options[:headers]
+        options[:headers] = base_headers.merge options[:headers]
       else
-        options = base_options
+        options[:headers] = base_headers
       end
-      options = options.delete_if{|k,v| v == {}}
+      options[:headers] = options[:headers].delete_if{|k,v| v == {}}
       @last_response = self.class.method( method_sym ).call uri, options, &block
       set_cookies
       return @last_response
@@ -28,20 +28,21 @@ module HTTPartyWithCookies
   end
 
 
+  def request_cookies
+    URI.unescape( @cookies.to_a.map do |cookie|
+      cookie.join('=')
+    end.join(';') )
+  end
+  def set_cookies       #ugly hack to get the correct cookie array from the headers
+    response_cookies = @last_response.headers.instance_variable_get(:@header)['set-cookie']
+    return unless response_cookies and !response_cookies.empty?
+    response_cookies = [ response_cookies ] if response_cookies.is_a? String
+    response_cookies.each do |cookie|
+      add_cookies( cookie.split(';')[0] )
+    end
+  end
+
   private
-    def request_cookies
-      URI.unescape( @cookies.to_a.map do |cookie|
-        cookie.join('=')
-      end.join(';') )
-    end
-    def set_cookies       #ugly hack to get the correct cookie array from the headers
-      response_cookies = @last_response.headers.instance_variable_get(:@header)['set-cookie']
-      return unless response_cookies and !response_cookies.empty?
-      response_cookies = [ response_cookies ] if response_cookies.is_a? String
-      response_cookies.each do |cookie|
-        add_cookies( cookie.split(';')[0] )
-      end
-    end
     def add_cookies *cookies
       @cookies||= {}
       cookies.each do |cookie|
