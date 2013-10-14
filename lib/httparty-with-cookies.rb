@@ -1,6 +1,6 @@
 require 'httparty'
 
-module HTTPartyWIthCookies
+module HTTPartyWithCookies
 #  include HTTParty
   attr :cookies
 
@@ -34,13 +34,13 @@ module HTTPartyWIthCookies
         cookie.join('=')
       end.join(';') )
     end
-    def set_cookies
-      response_cookies = @last_response.headers['set-cookie']
+    def set_cookies       #ugly hack to get the correct cookie array from the headers
+      response_cookies = @last_response.headers.instance_variable_get(:@header)['set-cookie']
       return unless response_cookies and !response_cookies.empty?
       response_cookies = [ response_cookies ] if response_cookies.is_a? String
-      response_cookies.each { |cookie|
+      response_cookies.each do |cookie|
         add_cookies( cookie.split(';')[0] )
-      }
+      end
     end
     def add_cookies *cookies
       @cookies||= {}
@@ -50,12 +50,3 @@ module HTTPartyWIthCookies
       end
     end
 end
-
-class Foo
-  include HTTPartyWIthCookies
-  debug_output $stderr
-end
-
-f = Foo.new
-puts f.get( 'http://google.com').headers.inspect
-f.get( 'http://google.com')
