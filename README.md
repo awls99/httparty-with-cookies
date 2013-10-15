@@ -1,5 +1,6 @@
 #HTTParty with cookies
 =====================
+[![Gem Version](https://badge.fury.io/rb/httparty_with_cookies.png)](http://badge.fury.io/rb/httparty_with_cookies)
 
 This gem allows you to use HTTParty with auto cookie management.
 
