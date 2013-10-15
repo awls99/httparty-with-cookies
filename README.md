@@ -27,7 +27,9 @@ If you don't know HTTParty, you can read about it [here](https://github.com/jnun
 
 ##Limitations
 Currently this gem will read all the cookies the server returns save it on your class' instance and for any next request it will send the cookies back - pays no attention to domain or expiration information.
+
 **This works as a module providing instance methods to a class and not as module with class methods as HTTParty!**
+
 Like most open source, I've made this because it solves my problem, and perhaps other people's with similar problems, feel free to add if it's not enough for you :)
 
 ##Development
