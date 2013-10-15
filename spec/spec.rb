@@ -8,7 +8,7 @@ require 'rspec'
 require File.join( File.dirname(__FILE__), '..', 'lib', 'httparty_with_cookies')
 
 RSpec.configure do |config|
-  config.include HTTParty_With_Cookies
+  config.include HTTParty_with_cookies
 
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing
