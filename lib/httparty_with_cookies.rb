@@ -1,6 +1,6 @@
 require 'httparty'
 
-module HTTPartyWithCookies
+module HTTParty_With_Cookies
 #  include HTTParty
   attr :cookies
 
