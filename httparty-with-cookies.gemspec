@@ -1,6 +1,6 @@
 SPEC = Gem::Specification.new do |s|
   s.name         = 'httparty_with_cookies'
-  s.version      = '0.1.0'
+  s.version      = '0.1.1'
   s.date         = Time.now.strftime('%Y-%m-%d')
   s.author       = 'Arthur Silva'
   s.summary      = 'Basic automatic cookie handling for HTTParty'
@@ -13,4 +13,5 @@ SPEC = Gem::Specification.new do |s|
   s.files        = Dir.glob("{lib}/*").push __FILE__
   s.require_path = 'lib'
   s.has_rdoc     = false
+  s.license      = 'MIT'
 end
