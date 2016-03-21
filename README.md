@@ -45,5 +45,5 @@ Here's an example of how to get the cookies from a 302 response:
        rescue HTTParty::RedirectionTooDeep => r
          @last_response = r.response
          set_cookies
-                ```
+```
 300 range responses for now don't go through `#set_cookies` on their on, so if you're depended on cookies there, you'll have to manually catch them.
