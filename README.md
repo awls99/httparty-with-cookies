@@ -36,3 +36,14 @@ Like most open source, I've made this because it solves my problem, and perhaps 
 ##Development
 On spec/server there's a very small sinatra sever with cookie setting page, cookie reading page and a no cookies at all page, made to support get, post, delete and put methods, you'll need to fire this server up before running the spec tests.
 I cheated a little bit on the spec, don't hate me.
+
+##Weird cases
+As of 0.2.0 you can get cookies from 3xx responses, but it's not as straight forward as it should be (that will be fixed soon™).
+Here's an example of how to get the cookies from a 302 response:
+```    begin
+           post SIGNIN, limit: 1, body: {:username => username, :password => password}
+       rescue HTTParty::RedirectionTooDeep => r
+         @last_response = r.response
+         set_cookies
+                ```
+300 range responses for now don't go through `#set_cookies` on their on, so if you're depended on cookies there, you'll have to manually catch them.
