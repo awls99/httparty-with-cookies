@@ -35,12 +35,13 @@ module HTTParty_with_cookies
   end
   def set_cookies       #ugly hack to get the correct cookie array from the headers
     headers = nil       #3 years later: uglier meta hack to allow fetching headers from 3xx responses
-    if @last_response.respond_to? :headers?
+    begin
       headers = @last_response.headers.instance_variable_get(:@header)
-    else
+    rescue NoMethodError
       headers = @last_response.instance_variable_get(:@header)
     end
-    return unless headers
+
+    return unless headers and headers['set-cookie']
 
     response_cookies = headers['set-cookie']
     return unless response_cookies and !response_cookies.empty?
