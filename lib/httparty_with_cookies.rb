@@ -55,7 +55,7 @@ module HTTParty_with_cookies
     def add_cookies *cookies
       @cookies||= {}
       cookies.each do |cookie|
-        key, value = cookie.split '='
+        key, value = cookie.split '=', 2
         @cookies[ key ] = value
       end
     end

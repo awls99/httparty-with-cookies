@@ -1,6 +1,6 @@
 SPEC = Gem::Specification.new do |s|
   s.name         = 'httparty_with_cookies'
-  s.version      = '0.2.1'
+  s.version      = '0.2.2'
   s.date         = Time.now.strftime('%Y-%m-%d')
   s.author       = 'Arthur Silva'
   s.summary      = 'Basic automatic cookie handling for HTTParty'
